@@ -1,10 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 const app = express();
 
 import adminRoutes from './routes/admin';
 import shopRoutes from "./routes/shop";
+import userRoutes from "./routes/user";
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,4 +20,13 @@ app.use('/', (_req, res, next) => {
     next();
 }); 
 
-app.listen(8080);
+mongoose
+  .connect(
+    'mongodb+srv://mor:mor@cluster0.ma0wp.mongodb.net/Appointments?retryWrites=true&w=majority'
+  )
+  .then(() => {
+    app.listen(8080);
+  })
+  .catch(err => {
+    console.log(err);
+  });

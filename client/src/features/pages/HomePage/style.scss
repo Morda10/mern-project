@@ -1,0 +1,21 @@
+@import '../../../common/colors';
+
+.home-page {
+    background-color: $DarkPurple_1;
+    height: 100%;
+    .home-page-title-container {
+        padding-top: 40px;
+        .home-page-title {
+            color: $Purple_1;
+        }
+    }
+    .home-page-content-card {
+        width: fit-content;
+        padding: 12px;
+        background-color: $Brown_1;
+    }
+    .regev {
+        color: bisque;
+        font-weight: bold;;
+    }
+}

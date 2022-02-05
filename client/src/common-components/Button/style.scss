@@ -1,0 +1,25 @@
+@import '../../common/colors';
+
+.common-button {
+    color: $Green_1;
+    background-color: $Black_1;
+    font-size: 14px;
+    &.small {
+        font-size: 12px;
+    }
+    &.secondary {
+        color: $LightGreen_1;
+        background-color: $Purple_1;
+    
+    }
+    &.negative {
+        color: $Black_1;
+        background-color: $Green_1;
+    }
+    &.link {
+        text-decoration: underline;
+        color: $Black_1;
+        background-color: transparent;
+
+    }
+}

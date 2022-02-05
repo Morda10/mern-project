@@ -5,14 +5,15 @@ import mongoose from 'mongoose';
 const app = express();
 
 import adminRoutes from './routes/admin';
-import shopRoutes from "./routes/shop";
-import userRoutes from "./routes/user";
+import shopRoutes from './routes/shop';
+// import userRoutes from 'routes/user';
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('admin', adminRoutes);
 app.use('shop', shopRoutes);
+// app.use('user', userRoutes);
 
 app.use('/', (_req, res, next) => {
     console.log("server is liveeee!!!");

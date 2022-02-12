@@ -4,7 +4,7 @@ import { increment } from 'features/counter/counterSlice';
 import React, { Component } from 'react';
 import { InjectedFormProps } from 'redux-form';
 import { connectReduxForm } from 'utils/formUtils/formUtils';
-import { LOGIN_TITLE } from './consts';
+import { CREATE_ACCOUNT, LOGIN_TITLE, SIGN_IN } from './consts';
 
 export type FormValues = {
     email: string;
@@ -23,16 +23,35 @@ export class LoginForm extends Component<Props & InjectedFormProps> {
     return (
             <form onSubmit={handleSubmit.bind(onSubmit)}>
                 <GridMaker
-                    alignItems="center"
-                    justifyContent="center"
+                    className="login-form-container"
+                    alignItems="flex-start"
+                    justifyContent="flex-start"
                     rowSpacing={3}
-                    direction="column"
-                    gridItemsProps={[{xs: 12}, {xs: 6}, {xs: 6}]}
+                    // direction="column"
+                    gridItemsProps={[{xs: 12, className: 'login-title-item'}, {}, {xs: 12}, { xs: 12, className: 'create-account-item' }]}
                 >
                     {this.renderLoginTitle()}
-                    <Input name='email' type="email" label="Email: " inputGridMakerProps={{ columnSpacing: 1 }} labelProps={{ align: 'center' }} />
-                    <Input name='password' type="password" label="Password: " inputGridMakerProps={{ columnSpacing: 1 }} />
-                    <Button type='submit'>Submit</Button>
+                    <GridMaker
+                        direction="column"
+                        gridItemsProps={[{xs: 12, className: 'login-form-input-email'}, { xs: 12, className: 'login-form-input-password' }]}
+                    >
+                        <Input
+                            name='email'
+                            type="email"
+                            label="Email: "
+                            inputGridMakerProps={{ columnSpacing: 1 }}
+                            labelProps={{ align: 'center', className: 'login-form-input-label' }}
+                        />
+                        <Input
+                            name='password'
+                            type="password"
+                            label="Password: "
+                            inputGridMakerProps={{ columnSpacing: 1 }}
+                            labelProps={{ className: 'login-form-input-label' }}
+                        />
+                    </GridMaker>
+                    <Button type='submit'>{SIGN_IN}</Button>
+                    <Button link>{CREATE_ACCOUNT}</Button>
                 </GridMaker>
             </form>
     );

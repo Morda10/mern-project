@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const app = express();
 
 import adminRoutes from './routes/admin';
-import shopRoutes from './routes/shop';
+import shopRoutes from './routes/admin';
 // import userRoutes from 'routes/user';
 
 

@@ -7,9 +7,10 @@ export type Props = {
 } & TypographyProps;
 
 export const Label = (props: Props) => {
-    const { children, customLabel,  ...rest } = props;
-    const labelClass = `common-label ${customLabel}`;
-  return <Typography className={labelClass} {...rest}>{children}</Typography>;
+    const { children, customLabel, className = '', classes,  ...rest } = props;
+    let labelClass = `common-label ${className}`;
+    if (customLabel) labelClass = customLabel;
+  return <Typography classes={classes || {root: labelClass}} {...rest}>{children}</Typography>;
 };
 
 export default Label;

@@ -9,6 +9,7 @@ import LoginForm from './LoginForm';
 
 export type Props = {
     count: number;
+    isLogin: boolean;
     increment: ActionCreatorWithoutPayload<string>
 };
 
@@ -19,8 +20,8 @@ export class Login extends Component<Props> {
     render() {
         return (
             <GridMaker className='login-page' alignItems="center" justifyContent="center">
-                <Card className='login-card'>
-                    <LoginForm />
+                <Card elevation={1} className='login-card'>
+                    {isLogin ? <LoginForm /> : <RegisterForm />}
                 </Card>
             </GridMaker>
             );
@@ -29,7 +30,8 @@ export class Login extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     return {
-        count: state.counter.value
+        count: state.counter.value,
+        isLogin: state.authentication.isLogin
     }
 };
 

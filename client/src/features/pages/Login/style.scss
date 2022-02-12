@@ -4,9 +4,24 @@
     .login-card {
         text-align: center;
         padding: 20px;
-        .login-title {
-            font-weight: bold;
-            padding-top: 0;
+        .login-form-container {
+            padding-left: 20px;
+            padding-right: 20px;
+            .login-title-item {
+                text-align: center;
+                .login-title {
+                    font-weight: bold;
+                    padding-top: 20px;
+                }
+            }
+           
+            .login-form-input-label {
+                padding-top: 7px;
+            }
+            .create-account-item {
+                float: right;
+            }
         }
+       
     }
 }

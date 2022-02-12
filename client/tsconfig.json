@@ -6,11 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
-    // "baseUrl": "./client/",
-    // "paths": {
-    //   "": ["./*"]
-    // },
     "allowJs": false,
+    "baseUrl": "src",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

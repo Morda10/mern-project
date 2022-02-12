@@ -31,7 +31,7 @@ export const Button = (props: Props) => {
      if (className) {
         buttonClassName = `${buttonClassName} ${className}`;
      }
-     buttonClassName = `${buttonClassName} ${small ? 'small' : ''} ${link ? 'link' : ''} ${secondary ? 'secondary' : ''} ${negative ? 'negative' : ''}`
+     buttonClassName = `${buttonClassName} ${small ? 'small' : ''} ${link ? 'link' : ''} ${secondary ? 'secondary' : ''} ${negative ? 'negative' : ''}`;
      if (customButton) {
         buttonClassName = customButton;
      }

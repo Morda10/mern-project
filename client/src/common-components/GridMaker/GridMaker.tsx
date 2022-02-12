@@ -5,7 +5,7 @@ export type Props = {
     gridItemsProps?: GridProps[];
 } & GridProps;
 
-export const GridMaker = (props: Props) => {
+export const GridMaker: React.FC<Props> = (props: Props) => {
     const { children, gridItemsProps, ...rest } = props;
     const gridItems = React.Children.map(children, ((child, index) => {
         const currentGridItemProps = gridItemsProps && gridItemsProps[index];

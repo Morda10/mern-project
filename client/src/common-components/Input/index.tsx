@@ -9,11 +9,12 @@ export type Props = {
 
 
 export const inputField = (props: Props) => {
+    const { ...rest } = props;
     return (
         <Field
-            {...(props as BaseFieldProps)}
             component={Input}
-        />            
+            {...(rest as BaseFieldProps)}
+        />       
     );
 };
 

@@ -1,0 +1,8 @@
+@import 'common/colors.scss';
+
+.common-card {
+    background-color: $Primary_White_1;
+    width: max-content;
+    height: max-content;
+    border-radius: 8px !important;
+}

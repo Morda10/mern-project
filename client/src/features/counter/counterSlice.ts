@@ -59,8 +59,9 @@ export const counterSlice = createSlice({
       });
   },
 });
-// @ts-ignore
+// eslint-disable-next-line no-unused-expressions
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+// eslint-disable-next-line no-unused-expressions
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

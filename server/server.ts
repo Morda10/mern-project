@@ -7,20 +7,22 @@ const app = express();
 import adminRoutes from './routes/admin';
 import shopRoutes from './routes/admin';
 // import userRoutes from 'routes/user';
+import authRoutes from './routes/auth/auth';
 
-
+//GLOBAL MIDLLEWARES
+app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('admin', adminRoutes);
-app.use('shop', shopRoutes);
-// app.use('user', userRoutes);
-
+//ROUTES
+app.use('/auth', authRoutes);
+// app.use('shop', shopRoutes);
 app.use('/', (_req, res, next) => {
-    console.log("server is liveeee!!!");
-    res.send("<h1>godlsnghdf</h1>");
+    console.log({__dirname});
+    res.json({status:"success"});
     next();
 }); 
 
+//START DB CONNECT AND SERVER
 mongoose
   .connect(
     'mongodb+srv://mor:mor@cluster0.ma0wp.mongodb.net/Appointments?retryWrites=true&w=majority'

@@ -4,7 +4,7 @@ import { nextTick } from 'process';
 const router = Router();
 
 
-router.get('/add-product', (_req, res, _next) => {
+router.get('/add-productd', (_req, res, _next) => {
     res.send(
         '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">submit</button></form>'
     );

@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, SchemaDefinitionProperty } from "mongoose";
 
 
 export interface User {
@@ -6,7 +6,12 @@ export interface User {
     username: string;
     email: string;
     password: string;
-    address: string;
-    phoneNumber?: string;
-    paymentMethod?: string;
+    phoneNumber: string;
+    firstName:string;
+    lastName:string;
+    role:SchemaDefinitionProperty<Roles> | undefined;
+    isActive:boolean;
+    verifcationCode:string;
 };
+
+export enum Roles { ADMIN, OWNER, CUSTOMER};

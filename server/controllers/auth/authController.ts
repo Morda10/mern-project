@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
-import User from "../models/User";
+import User from "../../models/User";
 import express from "express";
 import { validationResult } from "express-validator";
-import { isErrors } from "../utils/IsErrorsOnValidation";
-import { sendEmail } from "../utils/email";
-import emailVerify from "../models/emailVerify";
+import { isErrors } from "../../utils/IsErrorsOnValidation";
+import { sendEmail } from "../../utils/email";
+import emailVerify from "../../models/emailVerify";
+import { IS_PRODUCTION, URLS } from "../../utils/consts";
+import { VERIFCATION_MAIL_MESSAGE } from "./consts";
 
 const signup = async (req: express.Request, res: express.Response) => {
   //check validation errors
@@ -48,10 +50,11 @@ const signup = async (req: express.Request, res: express.Response) => {
   });
 
   //send verifaction email to the customer
-  const msg = `For Email verification enter to this link http://walla.co.il and insert this code ${verifcationCode}`;
+  const URL = IS_PRODUCTION ? URLS.SERVER_URL : URLS.LOCALHOST_SERVER_URL;
+  const msg = `${VERIFCATION_MAIL_MESSAGE.PRE_URL} ${URL} ${VERIFCATION_MAIL_MESSAGE.POST_URL} ${verifcationCode}`;
   sendEmail(email, "Email verification", msg);
 
-  //return success status
+  //return created status
   return res.status(201).json({ message: "user created", data: req.body });
 };
 

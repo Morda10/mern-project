@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import authController from "../../controllers/authController";
+import authController from "../../controllers/auth/authController";
 import {
   emailValidation,
   emailVerifyValidation,

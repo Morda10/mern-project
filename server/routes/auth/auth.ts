@@ -3,7 +3,10 @@ import { body } from "express-validator";
 import authController from "../../controllers/authController";
 import {
   emailValidation,
+  firstNameValidation,
+  lastNameValidation,
   passwrodValidation,
+  phoneNumberValidation,
   usernameValidation,
 } from "./validations";
 const router = Router();
@@ -13,6 +16,9 @@ router.post(
   usernameValidation,
   emailValidation,
   passwrodValidation,
+  phoneNumberValidation,
+  firstNameValidation,
+  lastNameValidation,
   authController.signup
 );
 

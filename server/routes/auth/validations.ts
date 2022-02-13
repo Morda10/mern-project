@@ -21,7 +21,19 @@ export const passwrodValidation = body("password")
   );
 
 export const phoneNumberValidation = body("phoneNumber")
+  .isNumeric()
+  .withMessage("Phone number is not valid!")
   .isLength({ min: 10, max: 10 })
-  .withMessage(
-    "password must be at least 8 chars and conatin one:Lowercase,Uppercase and number!"
-  );
+  .withMessage("Phone number is not valid!");
+
+export const firstNameValidation = body("firstName")
+  .isLength({ min: 2 })
+  .withMessage("First Name must be at least 2 chars!")
+  .isAlpha()
+  .withMessage("First Name must have only letters!");
+
+export const lastNameValidation = body("lastName")
+  .isLength({ min: 2 })
+  .withMessage("Last Name must be at least 2 chars!")
+  .isAlpha()
+  .withMessage("Last Name must have only letters!");

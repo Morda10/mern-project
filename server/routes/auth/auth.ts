@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import authController from "../../controllers/authController";
 import {
   emailValidation,
+  emailVerifyValidation,
   firstNameValidation,
   lastNameValidation,
   passwrodValidation,
@@ -22,9 +23,6 @@ router.post(
   authController.signup
 );
 
-router.post("/product", (req, res, _next) => {
-  console.log(req.body);
-  res.redirect("/");
-});
+router.post("/verifyEmail", emailVerifyValidation, authController.verifyEmail);
 
 export default router;

@@ -37,3 +37,7 @@ export const lastNameValidation = body("lastName")
   .withMessage("Last Name must be at least 2 chars!")
   .isAlpha()
   .withMessage("Last Name must have only letters!");
+
+export const emailVerifyValidation = body("verifcationCode")
+  .isLength({ min: 6, max: 6 })
+  .withMessage("Invalid email verifcation code!");

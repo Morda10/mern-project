@@ -10,6 +10,7 @@ import {
   phoneNumberValidation,
   usernameValidation,
 } from "./validations";
+
 const router = Router();
 
 router.post(
@@ -24,5 +25,12 @@ router.post(
 );
 
 router.post("/verifyEmail", emailVerifyValidation, authController.verifyEmail);
+
+router.post(
+  "/login",
+  emailValidation,
+  passwrodValidation,
+  authController.login
+);
 
 export default router;

@@ -84,4 +84,34 @@ const verifyEmail = async (req: express.Request, res: express.Response) => {
     return res.status(400).json({ msg: "Email verify Code is invalid!" });
   }
 };
-export default { signup, verifyEmail };
+
+const login = async (req: express.Request, res: express.Response) => {
+  //check validation errors
+  const errors = isErrors(req, true);
+  if (errors) return res.status(400).json({ msg: errors });
+
+  const { email, password } = req.body;
+
+  //check if email and password are valid
+  const loginUser = await User.findOne({ email: email });
+  if (loginUser) {
+    //compare the hash password
+    const validUser = await bcrypt
+      .compare(password, loginUser.password)
+      .then((res) => {
+        return res;
+      });
+    //if the hash password compare is success else go to the end return
+    if (validUser) {
+      //if the email and password are compared and user is active login is success else go to email verify
+      if (loginUser.isActive) {
+        return res.status(200).json({ msg: "Login success!" });
+      } else {
+        return res.status(400).json({ msg: "Email is not verify!" });
+      }
+    }
+  }
+  return res.status(400).json({ msg: "Invalid User Name or Password!" });
+};
+
+export default { signup, verifyEmail, login };

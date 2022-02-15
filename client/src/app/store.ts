@@ -12,7 +12,8 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 // import storage from 'redux-persist/lib/storage'
 // import rootReducer from './reducers';
 import counterReducer from '../features/counter/counterSlice';
-import {reducer as formReducer} from 'redux-form';
+import authenticationReducer from 'app/actions/authentication/authenticationSlice';
+import { reducer as formReducer } from 'redux-form';
 
 // const persistConfig = {
 //   key: 'root',
@@ -36,6 +37,7 @@ import {reducer as formReducer} from 'redux-form';
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    authentication: authenticationReducer,
     form: formReducer
   },
 });

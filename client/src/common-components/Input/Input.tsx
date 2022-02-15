@@ -15,7 +15,7 @@ export type Props = {
 export const Input = (props: Props & WrappedFieldProps) => {
   const {
      input, className = '', customInput = '',
-     label, inputGridMakerProps, labelProps,
+     label, inputGridMakerProps = { columnSpacing: 2 }, labelProps,
      ...rest
  } = props;
  const { className: labelClassName = '' } = labelProps || {};
@@ -25,7 +25,7 @@ export const Input = (props: Props & WrappedFieldProps) => {
   
   return( 
       <GridMaker {...inputGridMakerProps}>
-        {label && <Label className={labelClass} {...labelProps}>{label}</Label>}
+        {label && <span className={labelClass}>{label}</span>}
         <TextField
           classes={{ root: inputClassName}}
           {...input}

@@ -6,18 +6,23 @@ import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import './style.scss';
 import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+import { authenticationSelectors } from 'app/actions/authentication';
 
 export type Props = {
+    
+};
+
+export interface OwnProps extends Props {
     count: number;
     isLogin: boolean;
     increment: ActionCreatorWithoutPayload<string>
-};
+}
 
-export class Login extends Component<Props> {
-
-    
+export class Login extends Component<OwnProps> {
 
     render() {
+        const { isLogin } = this.props;
         return (
             <GridMaker className='login-page' alignItems="center" justifyContent="center">
                 <Card elevation={1} className='login-card'>
@@ -31,7 +36,7 @@ export class Login extends Component<Props> {
 const mapStateToProps = (state: RootState) => {
     return {
         count: state.counter.value,
-        isLogin: state.authentication.isLogin
+        isLogin: authenticationSelectors.getIsLogin(state)
     }
 };
 

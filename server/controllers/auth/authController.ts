@@ -7,7 +7,9 @@ import { sendEmail } from "../../utils/email";
 import emailVerify from "../../models/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
 import { VERIFCATION_MAIL_MESSAGE } from "./consts";
+import jwt from "jsonwebtoken";
 
+//----------------------------------------------------------------------------------------------------------------------
 const signup = async (req: express.Request, res: express.Response) => {
   //check validation errors
   const errors = isErrors(req, true);
@@ -58,6 +60,7 @@ const signup = async (req: express.Request, res: express.Response) => {
   return res.status(201).json({ message: "user created", data: req.body });
 };
 
+//----------------------------------------------------------------------------------------------------------------------
 const verifyEmail = async (req: express.Request, res: express.Response) => {
   //check validation errors
   const errors = isErrors(req, true);
@@ -85,6 +88,7 @@ const verifyEmail = async (req: express.Request, res: express.Response) => {
   }
 };
 
+//----------------------------------------------------------------------------------------------------------------------
 const login = async (req: express.Request, res: express.Response) => {
   //check validation errors
   const errors = isErrors(req, true);
@@ -105,7 +109,13 @@ const login = async (req: express.Request, res: express.Response) => {
     if (validUser) {
       //if the email and password are compared and user is active login is success else go to email verify
       if (loginUser.isActive) {
-        return res.status(200).json({ msg: "Login success!" });
+        //create new token to the user
+        const token = jwt.sign({ id: loginUser._id }, process.env.JWT_SECRET!, {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+        return res
+          .status(200)
+          .json({ msg: "Login success!", token, loginUser });
       } else {
         return res.status(400).json({ msg: "Email is not verify!" });
       }

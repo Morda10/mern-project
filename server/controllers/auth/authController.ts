@@ -7,7 +7,8 @@ import { sendEmail } from "../../utils/email";
 import emailVerify from "../../models/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
 import { VERIFCATION_MAIL_MESSAGE } from "./consts";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import e from "express";
 
 //----------------------------------------------------------------------------------------------------------------------
 const signup = async (req: express.Request, res: express.Response) => {
@@ -124,4 +125,31 @@ const login = async (req: express.Request, res: express.Response) => {
   return res.status(400).json({ msg: "Invalid User Name or Password!" });
 };
 
-export default { signup, verifyEmail, login };
+const protect = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  let token, decoded;
+  //check if there is authorization header and the header start with Bearer
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  )
+    //split by space and take the token
+    token = req.headers.authorization.split(" ")[1];
+  //if the token doest exist return no autorziotion
+  if (!token) return res.status(401).json({ msg: "no autorziotion" });
+  try {
+    //if the token exist verify the token
+    decoded = await jwt.verify(token, process.env.JWT_SECRET!);
+  } catch (err) {
+    //if the verify failed return no autorziotion
+    return res.status(401).json({ msg: "no autorziotion" });
+  }
+  //if the verify success make new param in the body of the user id that the token belong to him
+  req.body.userId = Object.values(decoded)[0];
+  return next();
+};
+
+export default { signup, verifyEmail, login, protect };

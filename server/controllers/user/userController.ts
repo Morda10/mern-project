@@ -1,29 +1,51 @@
 import express from "express";
 import User from "../../models/User";
+import jwt from "jsonwebtoken";
+import { CUSTOMER_DATA_FROM_DB, RESPONSE_MSG } from "./consts";
 
 const getLoginUserDetails = async (
   req: express.Request,
   res: express.Response
 ) => {
-  const loginUser = (({
-    username,
-    email,
-    phoneNumber,
-    firstName,
-    lastName,
-  }) => ({ username, email, phoneNumber, firstName, lastName }))(req.body.user);
-  console.log(loginUser);
-  return res.status(200).json(loginUser);
+  //get the user details and restrict user password,ObjectId and role.
+  return res.status(200).json(
+    (({ username, email, phoneNumber, firstName, lastName }) => ({
+      username,
+      email,
+      phoneNumber,
+      firstName,
+      lastName,
+    }))(req.body.user)
+  );
 };
 
 const getAllCustomers = async (
   _req: express.Request,
   res: express.Response
 ) => {
-  const allCustomers = await User.find({ role: "CUSTOMER" })
-    .select("-_id username email phoneNumber firstName lastName")
-    .exec();
-  return res.status(200).json(allCustomers);
+  //get all customers detail restric password,ObjectId and role.
+  return res
+    .status(200)
+    .json(
+      await User.find({ role: "CUSTOMER" }).select(CUSTOMER_DATA_FROM_DB).exec()
+    );
 };
 
-export default { getLoginUserDetails, getAllCustomers };
+const deleteLoginUser = async (req: express.Request, res: express.Response) => {
+  //protect func will insert the user to req object and verify him just pull the user id and delete him
+  await User.deleteOne({ _id: req.body.user._id });
+  return res.status(200).json({ msg: RESPONSE_MSG.ACCOUNT_DELETED });
+};
+
+const deleteCustomer = async (req: express.Request, res: express.Response) => {
+  //if get to here the user request come from owner or admin so just delete the customer in the req.body.customerEmail
+  await User.deleteOne({ email: req.body.customerEmail });
+  return res.status(200).json({ msg: RESPONSE_MSG.CUSTOMER_DELETED });
+};
+
+export default {
+  getLoginUserDetails,
+  getAllCustomers,
+  deleteLoginUser,
+  deleteCustomer,
+};

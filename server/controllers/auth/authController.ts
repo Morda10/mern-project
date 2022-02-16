@@ -6,9 +6,10 @@ import { isErrors } from "../../utils/IsErrorsOnValidation";
 import { sendEmail } from "../../utils/email";
 import emailVerify from "../../models/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
-import { RESPONSE, VERIFCATION_MAIL_MESSAGE } from "./consts";
+import { RESPONSE_MSG, MAIL_MESSAGE } from "./consts";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { PASSWORD_RESET_ROUTE } from "controllers/user/consts";
 
 //----------------------------------------------------------------------------------------------------------------------
 const signup = async (req: express.Request, res: express.Response) => {
@@ -21,22 +22,26 @@ const signup = async (req: express.Request, res: express.Response) => {
   //check if username is already exist
   const userExist = await User.findOne({ username: username });
   if (userExist) {
-    return res.status(400).json({ message: `${username} already exist!` });
+    return res
+      .status(400)
+      .json({ message: `${username} ${RESPONSE_MSG.EXIST}` });
   }
 
   //check if email is already exist
   const emailExist = await User.findOne({ email: email });
   if (emailExist)
-    return res.status(400).json({ message: `${email} already exist!` });
+    return res.status(400).json({ message: `${email} ${RESPONSE_MSG.EXIST}` });
 
   //checl if phone is already exist
   const phoneExist = await User.findOne({ phoneNumber: phoneNumber });
   if (phoneExist)
-    return res.status(400).json({ message: `${phoneNumber} already exist!` });
+    return res
+      .status(400)
+      .json({ message: `${phoneNumber} ${RESPONSE_MSG.EXIST}` });
 
   //password encrypt
   const hashPassword = await bcrypt
-    .hash(password, process.env.BCRYPT_SALT!)
+    .hash(password, Number(process.env.BCRYPT_SALT!))
     .then((hash) => hash);
 
   //after all validation success create the user
@@ -56,11 +61,13 @@ const signup = async (req: express.Request, res: express.Response) => {
 
   //send verifaction email to the customer
   const URL = IS_PRODUCTION ? URLS.SERVER_URL : URLS.LOCALHOST_SERVER_URL;
-  const msg = `${VERIFCATION_MAIL_MESSAGE.PRE_URL} ${URL} ${VERIFCATION_MAIL_MESSAGE.POST_URL} ${verifcationCode}`;
+  const msg = `${MAIL_MESSAGE.VERIFCATION_PRE_URL} ${URL} ${MAIL_MESSAGE.VERIFCATION_POST_URL} ${verifcationCode}`;
   sendEmail(email, "Email verification", msg);
 
   //return created status
-  return res.status(201).json({ message: "user created", data: req.body });
+  return res
+    .status(201)
+    .json({ message: RESPONSE_MSG.USER_CREATED, data: req.body });
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -85,9 +92,11 @@ const verifyEmail = async (req: express.Request, res: express.Response) => {
     //update the user to be active
     await User.findOneAndUpdate({ email: email }, { isActive: true });
     //send success status
-    return res.status(200).json({ msg: "Email verify, User is active!" });
+    return res.status(200).json({ msg: RESPONSE_MSG.VERIFIED_EMAIL });
   } else {
-    return res.status(400).json({ msg: "Email verify Code is invalid!" });
+    return res
+      .status(400)
+      .json({ msg: RESPONSE_MSG.INVALID_VERIFICATION_CODE });
   }
 };
 
@@ -118,13 +127,15 @@ const login = async (req: express.Request, res: express.Response) => {
         });
         return res
           .status(200)
-          .json({ msg: "Login success!", token, loginUser });
+          .json({ msg: RESPONSE_MSG.SUCCESSFUL_LOGIN, token, loginUser });
       } else {
-        return res.status(400).json({ msg: "Email is not verify!" });
+        return res.status(400).json({ msg: RESPONSE_MSG.EMAIL_NOT_VERIFIED });
       }
     }
   }
-  return res.status(400).json({ msg: "Invalid User Name or Password!" });
+  return res
+    .status(400)
+    .json({ msg: RESPONSE_MSG.INCORRECT_LOGIN_INFORMATION });
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -142,16 +153,20 @@ const protect = async (
     //split by space and take the token
     token = req.headers.authorization.split(" ")[1];
   //if the token doest exist return no autorziotion
-  if (!token) return res.status(401).json({ msg: "no autorziotion" });
+  if (!token) return res.status(401).json({ msg: RESPONSE_MSG.NOT_AUTHORIZED });
   try {
     //if the token exist verify the token
     decoded = await jwt.verify(token, process.env.JWT_SECRET!);
   } catch (err) {
     //if the verify failed return no autorziotion
-    return res.status(401).json({ msg: "no autorziotion" });
+    return res.status(401).json({ msg: RESPONSE_MSG.NOT_AUTHORIZED });
   }
   //if the verify success make new param in the body of the user id that the token belong to him
   req.body.user = await User.findOne({ _id: Object.values(decoded)[0] });
+
+  //check if the user is not exist in DB --> jwt belong to user that was deleted
+  if (!req.body.user)
+    return res.status(401).json({ msg: RESPONSE_MSG.NOT_AUTHORIZED });
   return next();
 };
 
@@ -164,7 +179,7 @@ const restrictTo = (...roles: string[]) => {
   ) => {
     //if the user role that make the request doesnt exist in the restrict roles list return no autorziotion
     if (!roles.includes(req.body.user.role)) {
-      return res.status(401).json({ msg: "no autorziotion" });
+      return res.status(401).json({ msg: RESPONSE_MSG.NOT_AUTHORIZED });
     }
     return next();
   };
@@ -178,7 +193,7 @@ const forgetPassword = async (req: express.Request, res: express.Response) => {
 
   //find the user via email if exist
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).json({ msg: "User does not exist!" });
+  if (!user) return res.status(400).json({ msg: RESPONSE_MSG.USER_NOT_EXIST });
 
   //check if there is already a Token for him if there is delete it
   const token = await Token.findOne({ _id: user._id });
@@ -194,18 +209,16 @@ const forgetPassword = async (req: express.Request, res: express.Response) => {
   await Token.create({ _id: user._id, token: hash, createdAt: Date.now() });
 
   //make link with all parms of tkoen and the user id that belong that token
-  const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
+  const link = `${process.env.CLIENT_URL}${PASSWORD_RESET_ROUTE}?token=${resetToken}&id=${user._id}`;
 
   //send an mail with that reset password link
   sendEmail(
     user.email,
     "Password Reset",
-    `for password reset please enter this link : ${link}`
+    `${MAIL_MESSAGE.RESET_PASSWORD_PRE} ${link}`
   );
 
-  return res
-    .status(200)
-    .json({ msg: "Send email to password reset please follow the steps" });
+  return res.status(200).json({ msg: RESPONSE_MSG.PASSWORD_RESET_EMAIL });
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -219,7 +232,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
   if (!passwordResetToken)
     return res
       .status(400)
-      .json({ msg: "Invalid or expired password reset token" });
+      .json({ msg: RESPONSE_MSG.INVALID_PASSWORD_RESET_TOKEN });
 
   //compare tokens between the request and the token that exist in the DB
   const isValid = await bcrypt.compare(
@@ -229,7 +242,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
   if (!isValid)
     return res
       .status(400)
-      .json({ msg: "Invalid or expired password reset token" });
+      .json({ msg: RESPONSE_MSG.INVALID_PASSWORD_RESET_TOKEN });
 
   //if all is valid hash the new password and update it on the user object in DB
   const hash = await bcrypt.hash(
@@ -244,7 +257,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
 
   //delete the request for password reset in DB and return success
   await passwordResetToken.deleteOne();
-  return res.status(200).json({ msg: "Password Reset Successfully!" });
+  return res.status(200).json({ msg: RESPONSE_MSG.PASSWORD_RESET });
 };
 
 export default {

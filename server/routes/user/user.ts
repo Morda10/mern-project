@@ -17,4 +17,10 @@ router.get(
   userController.getAllCustomers
 );
 
+router.delete(
+  "/deleteLoginUser",
+  authController.protect,
+  userController.deleteLoginUser
+);
+
 export default router;

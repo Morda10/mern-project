@@ -16,7 +16,7 @@ const userSchema = new Schema<User>({
     default: "CUSTOMER",
     required: true,
   },
-  isActive: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: true },
 });
 
 export default mongoose.model("User", userSchema);

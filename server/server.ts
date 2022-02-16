@@ -8,9 +8,6 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth/auth";
 import userRoutes from "./routes/user/user";
 
-//Utils IMPORT
-import authorizationCheck from "./utils/authorizationCheck";
-
 //Conf USE
 const app = express();
 dotenv.config({ path: "./config.env" });
@@ -23,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 
-//START DB CONNECT AND SERVER
+//DB CONNECT AND  START SERVER
 const DB = process.env.DB_CONNECTION_STRING?.replace(
   "<PASSWORD>",
   process.env.DB_PASSWORD!

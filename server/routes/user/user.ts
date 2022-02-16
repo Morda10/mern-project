@@ -10,4 +10,11 @@ router.get(
   userController.getLoginUserDetails
 );
 
+router.get(
+  "/getAllCustomers",
+  authController.protect,
+  authController.restrictTo("ADMIN", "OWNER"),
+  userController.getAllCustomers
+);
+
 export default router;

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { body } from "express-validator";
 import authController from "../../controllers/auth/authController";
 import {
   emailValidation,
@@ -32,5 +31,9 @@ router.post(
   passwrodValidation,
   authController.login
 );
+
+router.post("/forgetPassword", emailValidation, authController.forgetPassword);
+
+router.post("/resetPassword", passwrodValidation, authController.resetPassword);
 
 export default router;

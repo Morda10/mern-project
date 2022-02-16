@@ -1,4 +1,6 @@
+import { USER_ROLES } from "controllers/user/consts";
 import mongoose from "mongoose";
+import { MODELS } from "./consts";
 import { User } from "./types/userTypes";
 
 const Schema = mongoose.Schema;
@@ -12,11 +14,11 @@ const userSchema = new Schema<User>({
   lastName: { type: String, required: true },
   role: {
     type: String,
-    enum: ["ADMIN", "OWNER", "CUSTOMER"],
-    default: "CUSTOMER",
+    enum: [USER_ROLES.ADMIN, USER_ROLES.OWNER, USER_ROLES.CUSTOMER],
+    default: USER_ROLES.CUSTOMER,
     required: true,
   },
   isActive: { type: Boolean, default: true },
 });
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model(MODELS.USER, userSchema);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { EMAIL_VERIFY_EXPIRATION, MODELS } from "./consts";
 import { emailVerify } from "./types/emailVerifyType";
 
 const Schema = mongoose.Schema;
@@ -9,8 +10,8 @@ const emailVerifySchema = new Schema<emailVerify>({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 3600, // this is the expiry time in seconds
+    expires: EMAIL_VERIFY_EXPIRATION, // this is the expiry time in seconds
   },
 });
 
-export default mongoose.model("emailVerify", emailVerifySchema);
+export default mongoose.model(MODELS.EMAIL_VERIFY, emailVerifySchema);

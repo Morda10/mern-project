@@ -9,7 +9,7 @@ import { IS_PRODUCTION, URLS } from "../../utils/consts";
 import { RESPONSE_MSG, MAIL_MESSAGE } from "./consts";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { PASSWORD_RESET_ROUTE } from "controllers/user/consts";
+import { PASSWORD_RESET_ROUTE } from "../user/consts";
 
 //----------------------------------------------------------------------------------------------------------------------
 const signup = async (req: express.Request, res: express.Response) => {

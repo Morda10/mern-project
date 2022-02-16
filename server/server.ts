@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 //ROUTES IMPORT
 import authRoutes from "./routes/auth/auth";
 import userRoutes from "./routes/user/user";
+import appointmentRoutes from "./routes/appointment/appointment";
+import authController from "./controllers/auth/authController";
 
 //Conf USE
 const app = express();
@@ -17,8 +19,10 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //ROUTES
+app.use("/*", authController.protect);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/appointment", appointmentRoutes);
 
 //DB CONNECT AND  START SERVER
 const DB = process.env.DB_CONNECTION_STRING?.replace(

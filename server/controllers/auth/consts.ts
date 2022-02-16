@@ -1,3 +1,8 @@
+import { makeUrlPath } from "../../utils/urls";
+import { AUTH_ROUTES } from "../../routes/auth/consts";
+import { BASE_ROUTES } from "../../utils/consts";
+import { APPOINTMENT_ROUTES } from "../../routes/appointment/consts";
+
 export const MAIL_MESSAGE = {
   VERIFCATION_PRE_URL: "For Email verification enter to this link",
   VERIFCATION_POST_URL: "and insert this code",
@@ -18,3 +23,11 @@ export const RESPONSE_MSG = {
   INVALID_PASSWORD_RESET_TOKEN: "Invalid or expired password reset token",
   PASSWORD_RESET: "Password reset completed successfully!",
 };
+
+export const TOKEN_IGNORE = [
+  makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.LOGIN),
+  makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.REGISTER),
+  makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.RESET_PASSWORD),
+  makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.FORGET_PASSWORD),
+  makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.VERIFY_EMAIL)
+];

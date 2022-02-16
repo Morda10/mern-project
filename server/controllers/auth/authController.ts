@@ -6,7 +6,7 @@ import { isErrors } from "../../utils/IsErrorsOnValidation";
 import { sendEmail } from "../../utils/email";
 import emailVerify from "../../models/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
-import { RESPONSE_MSG, MAIL_MESSAGE } from "./consts";
+import { RESPONSE_MSG, MAIL_MESSAGE, TOKEN_IGNORE } from "./consts";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { PASSWORD_RESET_ROUTE } from "../user/consts";
@@ -145,6 +145,8 @@ const protect = async (
   next: express.NextFunction
 ) => {
   let token, decoded;
+  // check if url in ignore list
+  if (TOKEN_IGNORE.includes(req.params[0])) return next();
   //check if there is authorization header and the header start with Bearer
   if (
     req.headers.authorization &&

@@ -5,7 +5,13 @@ export const URLS = {
 };
 
 export const BASE_ROUTES = {
-  AUTH: 'auth',
-  USER: 'user',
-  APPOINTMENT: 'appointment'
-}
+  AUTH: "/auth",
+  USER: "/user",
+  APPOINTMENT: "/appointment",
+};
+
+export const USER_ROLE = {
+  ADMIN: "ADMIN",
+  OWNER: "OWNER",
+  CUSTOMER: "CUSTOMER",
+};

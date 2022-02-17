@@ -1,1 +1,2 @@
-export const makeUrlPath = (prefix: string, routePath: string) => `${prefix}/${routePath}`;
+export const makeUrlPath = (prefix: string, routePath: string) =>
+  `${prefix}${routePath}`;

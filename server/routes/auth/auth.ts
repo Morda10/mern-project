@@ -24,7 +24,11 @@ router.post(
   authController.signup
 );
 
-router.post(AUTH_ROUTES.VERIFY_EMAIL, emailVerifyValidation, authController.verifyEmail);
+router.post(
+  AUTH_ROUTES.VERIFY_EMAIL,
+  emailVerifyValidation,
+  authController.verifyEmail
+);
 
 router.post(
   AUTH_ROUTES.LOGIN,
@@ -33,8 +37,16 @@ router.post(
   authController.login
 );
 
-router.post(AUTH_ROUTES.FORGET_PASSWORD, emailValidation, authController.forgetPassword);
+router.post(
+  AUTH_ROUTES.FORGET_PASSWORD,
+  emailValidation,
+  authController.forgetPassword
+);
 
-router.post(AUTH_ROUTES.RESET_PASSWORD, passwrodValidation, authController.resetPassword);
+router.post(
+  AUTH_ROUTES.RESET_PASSWORD,
+  passwrodValidation,
+  authController.resetPassword
+);
 
 export default router;

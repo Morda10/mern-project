@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth/auth";
 import userRoutes from "./routes/user/user";
 import appointmentRoutes from "./routes/appointment/appointment";
 import authController from "./controllers/auth/authController";
+import { BASE_ROUTES } from "./utils/consts";
 
 //Conf USE
 const app = express();
@@ -17,12 +18,12 @@ dotenv.config({ path: "./config.env" });
 //GLOBAL MIDLLEWARES
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(authController.protect);
 
 //ROUTES
-app.use("/*", authController.protect);
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-app.use("/appointment", appointmentRoutes);
+app.use(BASE_ROUTES.AUTH, authRoutes);
+app.use(BASE_ROUTES.USER, userRoutes);
+app.use(BASE_ROUTES.APPOINTMENT, appointmentRoutes);
 
 //DB CONNECT AND  START SERVER
 const DB = process.env.DB_CONNECTION_STRING?.replace(

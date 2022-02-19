@@ -5,8 +5,8 @@ import { increment } from 'features/counter/counterSlice';
 import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import './style.scss';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import { authenticationSelectors } from 'app/actions/authentication';
 
 export type Props = {

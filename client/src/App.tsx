@@ -8,7 +8,7 @@ import { GridMaker } from 'common-components';
 
 function App() {
   return (
-    <GridMaker alignItems="center" justifyContent="center" className='main-page-grid'>
+    <GridMaker className='main-page-grid'>
       <Router>
         <Routes>
             <Route path="/" element={<Login />} />

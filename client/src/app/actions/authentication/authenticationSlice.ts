@@ -46,6 +46,8 @@ export const authenticationSelectors = {
     getIsLogin: (state: RootState) => state.authentication.isLogin
 };
 
+
+// http requests to BE
 export const register = (payload: RegisterApiPayload): AppThunk => async (
     dispatch,
     // getState // current state for condition dipathing
@@ -55,7 +57,7 @@ export const register = (payload: RegisterApiPayload): AppThunk => async (
         dispatch(setRegisterResponse(response?.data));
         dispatch(setIsLogin(true));
     } catch (e: any) {
-        dispatch(setRegisterError(e.message))
+        dispatch(setRegisterError(e.errors))
     }
 
 };

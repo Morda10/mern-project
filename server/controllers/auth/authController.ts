@@ -40,12 +40,11 @@ const signup = catchAsync(
     next: express.NextFunction
   ) => {
     //check validation errors
-    const errors = isErrors(req, true);
-    if (errors) return next(new AppError(errors as string[], 400));
+    if (isErrors(req, next)) return;
 
     const { password, username, email, phoneNumber } = req.body;
     //username && email && phone already exist -> return 400 bad request
-    checkUniqueFields(email, username, phoneNumber, next);
+    if (await checkUniqueFields(email, username, phoneNumber, next)) return;
     //^ the input check is until here
 
     await encryptPasswordAndCreateUser(req, password);
@@ -65,8 +64,7 @@ const verifyEmail = catchAsync(
     next: express.NextFunction
   ) => {
     //check validation errors
-    const errors = isErrors(req, true);
-    if (errors) return next(new AppError(errors as string[], 400));
+    if (isErrors(req, next)) return;
 
     const { email, verifcationCode } = req.body;
 
@@ -87,8 +85,7 @@ const login = catchAsync(
     next: express.NextFunction
   ) => {
     //check validation errors
-    const errors = isErrors(req, true);
-    if (errors) return next(new AppError(errors, 400));
+    if (isErrors(req, next)) return;
 
     const { email, password } = req.body;
 
@@ -147,8 +144,7 @@ const forgetPassword = catchAsync(
     next: express.NextFunction
   ) => {
     //check validation errors
-    const errors = isErrors(req, true);
-    if (errors) return next(new AppError(errors, 400));
+    if (isErrors(req, next)) return;
 
     //user exist -> generate reset token and send a verify mail
     //user not exist -> return USER_NOT_EXIST
@@ -167,9 +163,7 @@ const resetPassword = catchAsync(
     next: express.NextFunction
   ) => {
     //check validation errors
-    const errors = isErrors(req, true);
-    if (errors) return next(new AppError(errors, 400));
-
+    if (isErrors(req, next)) return;
     //check if the user have a valid request for password reset
     const passwordResetToken = await Token.findOne({ _id: req.body.userId });
     if (!passwordResetToken)

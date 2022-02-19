@@ -157,6 +157,9 @@ export const checkUniqueFields = async (
   if (usernameExist) errors.push(`${username} ${RESPONSE_MSG.EXIST}`);
   if (emailExist) errors.push(`${email} ${RESPONSE_MSG.EXIST}`);
   if (phoneNumberExist) errors.push(`${phoneNumber} ${RESPONSE_MSG.EXIST}`);
-  if (errors.length) return next(new AppError(errors, 400));
-  return;
+  if (errors.length) {
+    next(new AppError(errors, 400));
+    return true;
+  }
+  return false;
 };

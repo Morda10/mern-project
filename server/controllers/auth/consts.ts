@@ -11,7 +11,7 @@ export const MAIL_MESSAGE = {
 };
 export const RESPONSE_MSG = {
   NOT_AUTHORIZED: "Not authorized!",
-  USER_NOT_EXIST: "User does not exist!",
+  USER_NOT_FOUND: "User does not exist!",
   EXIST: "Already exists!",
   USER_CREATED: "User created!",
   VERIFIED_EMAIL: "Email verified, user active!",
@@ -31,3 +31,9 @@ export const TOKEN_IGNORE = [
   makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.FORGET_PASSWORD),
   makeUrlPath(BASE_ROUTES.AUTH, AUTH_ROUTES.VERIFY_EMAIL),
 ];
+
+export const COOKIE_OPTIONS = {
+  expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), //90 DAYS
+  secure: false,
+  httpOnly: true,
+};

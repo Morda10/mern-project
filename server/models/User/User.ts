@@ -1,7 +1,7 @@
-import { USER_ROLES } from "../controllers/user/consts";
+import { USER_ROLES } from "../../controllers/user/consts";
 import mongoose from "mongoose";
-import { MODELS } from "./consts";
-import { User } from "./types/userTypes";
+import { MODELS } from "../consts";
+import { User } from "./userTypes";
 
 const Schema = mongoose.Schema;
 

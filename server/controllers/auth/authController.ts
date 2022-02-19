@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
-import User from "../../models/User";
-import { User as user } from "../../models/types/userTypes";
-import Token from "../../models/resetPasswrodToken";
+import User from "../../models/User/User";
+import { User as user } from "../../models/User/userTypes";
+import Token from "../../models/ResetPasswordToken/resetPasswrodToken";
 import express from "express";
 import { isErrors } from "../../utils/IsErrorsOnValidation";
 import { sendEmail } from "../../utils/email";
-import emailVerify from "../../models/emailVerify";
+import emailVerify from "../../models/EmailVerify/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
 import {
   RESPONSE_MSG,
@@ -49,11 +49,11 @@ const signup = catchAsync(
 
     await encryptPasswordAndCreateUser(req, password);
     await generateVerifcationCodeAndSendMail(email);
-    const responseObject: any = {
+
+    return res.status(201).json({
       message: RESPONSE_MSG.USER_CREATED,
       data: req.body,
-    };
-    return res.status(201).json(responseObject);
+    });
   }
 );
 

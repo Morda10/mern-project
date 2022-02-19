@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../../models/User";
+import User from "../../models/User/User";
 import jwt from "jsonwebtoken";
 import { CUSTOMER_DATA_FROM_DB, RESPONSE_MSG, USER_ROLES } from "./consts";
 import { catchAsync } from "../../utils/catchAsync";

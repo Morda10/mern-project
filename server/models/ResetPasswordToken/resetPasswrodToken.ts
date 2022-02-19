@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Token } from "./types/resetPasswordTokenType";
+import { Token } from "./resetPasswordTokenType";
 const Schema = mongoose.Schema;
 const tokenSchema = new Schema<Token>({
   _id: {

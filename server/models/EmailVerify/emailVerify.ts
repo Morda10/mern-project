@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { EMAIL_VERIFY_EXPIRATION, MODELS } from "./consts";
-import { emailVerify } from "./types/emailVerifyType";
+import { EMAIL_VERIFY_EXPIRATION, MODELS } from "../consts";
+import { emailVerify } from "./emailVerifyType";
 
 const Schema = mongoose.Schema;
 

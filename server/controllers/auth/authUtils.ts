@@ -1,6 +1,6 @@
 import express from "express";
-import User from "../../models/User";
-import { User as user } from "../../models/types/userTypes";
+import User from "../../models/User/User";
+import { User as user } from "../../models/User/userTypes";
 import jwt from "jsonwebtoken";
 import {
   RESPONSE_MSG,
@@ -9,10 +9,10 @@ import {
   COOKIE_OPTIONS,
 } from "./consts";
 import bcrypt from "bcrypt";
-import emailVerify from "../../models/emailVerify";
+import emailVerify from "../../models/EmailVerify/emailVerify";
 import { IS_PRODUCTION, URLS } from "../../utils/consts";
 import { sendEmail } from "../../utils/email";
-import Token from "../../models/resetPasswrodToken";
+import Token from "../../models/ResetPasswordToken/resetPasswrodToken";
 import crypto from "crypto";
 import { PASSWORD_RESET_ROUTE } from "../user/consts";
 import { AppError } from "../../utils/appError";
